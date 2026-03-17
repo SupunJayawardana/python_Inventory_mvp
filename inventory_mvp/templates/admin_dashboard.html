@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Admin Dashboard - Pending Requests</h2>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}<div class="alert alert-info">{{ messages[0] }}</div>{% endif %}
+    {% endwith %}
+
+    <div class="card p-4 shadow-sm">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Req ID</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>User Location (Lat, Lon)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in requests %}
+                <tr>
+                    <td>#{{ r.id }}</td>
+                    <td>{{ r.product.name }}</td>
+                    <td>{{ r.qty }}</td>
+                    <td>{{ r.user_lat }}, {{ r.user_lon }}</td>
+                    <td>
+                        <a href="/process/{{ r.id }}" class="btn btn-primary btn-sm">Find Nearest & Approve</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="text-center">No pending requests!</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
